@@ -1,0 +1,16 @@
+{% extends 'public/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center text-center">
+        <div class="col-12">
+            <form method="post" class = "m-3">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class = "btn btn-primary" value="Save">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

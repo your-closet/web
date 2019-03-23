@@ -3,6 +3,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import *
 
 
 @login_required
@@ -26,3 +29,19 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'public/signup.html', {'form': form})
+
+
+class CreateClothingItem(CreateView):
+    model = ClothingItem
+    fields = ['brand','color','pattern','size','is_advertisable']
+
+
+class ClothingItemUpdate(UpdateView):
+    model = ClothingItem
+    fields = ['name']
+    template_name_suffix = '_update_form'
+
+
+class ClothingItemDelete(DeleteView):
+    model = ClothingItem
+    success_url = reverse_lazy('')

@@ -1,11 +1,29 @@
 {% extends "public/base.html" %}
 {% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'public/css/index.css' %}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'public/js/index.js'%}"></script>
+{% endblock %}
+
 {% block body %}
-<div class = "container h-100">
-    <div class = "row justify-content-center align-items-center text-center h-100">
-        <div class = "col-12">
-            <h1>{{ message }}</h1>
-            <a href = "{% url 'logout' %}">Logout</a>
+<div class="model-container">
+    <div class="model-header text-center">
+        <h1>Select an Outfit</h1>
+    </div>
+    <div class="model-body">
+        <div class="shirt">
+            <div class="add rounded">
+                <h1><i class="fas fa-plus"></i></h1>
+            </div>
+        </div>
+        <div class="pants">
+            <div class="add rounded">
+                <h1><i class="fas fa-plus"></i></h1>
+            </div>
         </div>
     </div>
 </div>
