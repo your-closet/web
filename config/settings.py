@@ -38,9 +38,9 @@ if not SECRET_KEY:
         WRITE_KEYS = True
 
 FERNET_KEY = os.environ.get("FERNET_KEY")
-if FERNET_KEY:
+if not FERNET_KEY:
     DEBUG = True
-else:
+
     try:
         with open("keys.json") as f:
             SECRET_PASS_CRYPT = Fernet(json.loads(f.read()).get("FERNET_KEY").encode())
