@@ -1,5 +1,24 @@
-from django.db import models
+import json
+import os
+from django.db import models, transaction
 from django.contrib.auth.models import User
+
+
+def load_data():
+    path = os.path.join(os.getcwd(), 'data/auth_user.json')
+    with open(path) as f:
+        users = json.loads(f.read())
+        with transaction.atomic():
+            # User / Profile
+            for user in users:
+                # Password: password1234!
+                u = User(
+                    password=
+                    "pbkdf2_sha256$120000$jS5MuAnyuYlz$shXFvX8alYFf+EpT+i3dg7HHRrL6rd58gnsZZswvG9U=",
+                    **user)
+                u.save()
+                p = Profile(user_id=u.id)
+                p.save()
 
 
 class Profile(models.Model):
@@ -47,14 +66,14 @@ class ClothingItem(models.Model):
     )
 
     clothing_type = models.CharField(
-        max_length = 255,
-        blank = True,
-        default = "",
-        choices = (
-            ("shirt","shirt"),
-            ("pants","pants"),
-        )
-    )
+        max_length=255,
+        blank=True,
+        default="",
+        choices=(
+            ("top", "top"),
+            ("bottom", "bottom"),
+            ("shoe", "shoe"),
+        ))
 
     is_advertisable = models.BooleanField(
         default=False,
