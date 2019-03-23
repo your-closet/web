@@ -38,9 +38,9 @@ if not SECRET_KEY:
         WRITE_KEYS = True
 
 FERNET_KEY = os.environ.get("FERNET_KEY")
-if FERNET_KEY:
+if not FERNET_KEY:
     DEBUG = True
-else:
+
     try:
         with open("keys.json") as f:
             SECRET_PASS_CRYPT = Fernet(json.loads(f.read()).get("FERNET_KEY").encode())
@@ -59,7 +59,7 @@ if WRITE_KEYS:
 
 ALLOWED_HOSTS = []
 if not DEBUG:
-    ALLOWED_HOSTS.append(os.enviorn.get("HOST"))
+    ALLOWED_HOSTS.append(os.environ.get("HOST"))
 
 LOG_FILE = "./debug.log"
 LOG_LEVEL = "DEBUG"
@@ -102,6 +102,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,11 +139,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'yc_dev' if DEBUG else 'yc',
-        'USER': 'yc_user',
+        'NAME': os.environ.get('DB_NAME', 'yc_dev'),
+        'USER': os.environ.get('DB_USER', 'yc_user'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'password'),
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', 5432),
     }
 }
 
@@ -184,7 +185,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staic/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = "/login"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
