@@ -46,6 +46,16 @@ class ClothingItem(models.Model):
         null=False,
     )
 
+    clothing_type = models.CharField(
+        max_length = 255,
+        blank = True,
+        default = "",
+        choices = (
+            ("shirt","shirt"),
+            ("pants","pants"),
+        )
+    )
+
     is_advertisable = models.BooleanField(
         default=False,
         null=False,
