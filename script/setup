@@ -1,0 +1,142 @@
+#!/bin/bash
+
+red="\033[31m"
+yellow="\033[33m"
+green="\033[32m"
+endColor="\033[97m"
+check="✔"
+cross="✘"
+
+ROOT_DIR=$(pwd)
+PYTHON_VER='3.7.2'
+PYTHON='python3.7'
+PYTHON_SRC='python-src'
+PYTHON_ZIP="Python-$PYTHON_VER.tgz"
+PYTHON_PATH="/usr/local/bin/$PYTHON"
+
+SUCCESS=0
+
+PLATFORM='unknown'
+echo -en "\t${yellow}Detecting platform:\t${endColor}"
+if [[ "$(uname)" == 'Linux' ]]; then
+  PLATFORM='linux'
+elif [[ "$(uname)" == 'Darwin' ]]; then
+  PLATFORM='osx'
+elif [[ "$(uname)" == 'FreeBSD' ]]; then
+  PLATFORM='freebsd'
+  echo -en "\r\t${yellow}Detecting platform:\t${red}${cross}${endColor}\n"
+  echo -e "\t${red}Platform unsupported:\t$PLATFORM${endColor}"
+  exit 1
+fi
+echo -en "\r\t${yellow}Detecting platform:\t${green}$PLATFORM${endColor}\n"
+
+# Check for old Virtualenv
+if [ -d venv ]; then
+  echo -en "\t${yellow}Removing old virtualenv:\t${endColor}\r"
+  rm -rf venv/
+  echo -en "\r\t${yellow}Removing old virtualenv:\t${green}${check}${endColor}\n"
+fi
+
+# Make wheels dir
+if [ ! -d wheels ]; then
+  mkdir wheels/
+fi
+
+# Make logs dir
+if [ ! -d logs ]; then
+  mkdir logs/
+fi
+
+# Fix for OSX w/ missing openssl headers
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+
+# Compile Python from source
+if [ "$INSTALL_PYTHON" = "true" ]; then
+  echo -en "\t${yellow}Installing Python Version:\t${green}$PYTHON_VER${endColor}\n"
+  if [ -d "$PYTHON_SRC" ]; then
+    echo -en "\t${yellow}Removing old Python source files:\t${endColor}"
+    OUT=$(rm -rf $PYTHON_SRC)
+    echo -en "\r\t${yellow}Removing old Python source files:\t${green}${check}${endColor}\n"
+  fi
+  echo -en "\t${yellow}Downloading $PYTHON_ZIP:${endColor}\r"
+  OUT=$(curl -L -O "https://www.python.org/ftp/python/$PYTHON_VER/$PYTHON_ZIP" 2>&1 > /dev/null)
+  if [ $? -gt 0 ]; then
+    echo -en "\r\t${yellow}Downloading $PYTHON_ZIP:\t${red}${cross}${endColor}\n"
+    echo -e "${red}$OUT${endColor}"
+    exit 1
+  else
+    echo -en "\r\t${yellow}Downloading $PYTHON_ZIP:\t${green}${check}${endColor}\n"
+  fi
+
+  echo -en "\t${yellow}Unpacking $PYTHON_ZIP:${endColor}"
+  OUT=$(mkdir $PYTHON_SRC && \
+    tar -xvzf "$PYTHON_ZIP" -C $PYTHON_SRC --strip-components 1 2>&1 > /dev/null)
+  if [ $? -gt 0 ]; then
+    exit 0
+    echo -en "\r\t${yellow}Unpacking $PYTHON_ZIP:\t${red}${cross}${endColor}\n"
+    echo -e "${red}$OUT${endColor}"
+    exit 1
+  else
+    echo -en "\r\t${yellow}Unpacking $PYTHON_ZIP:\t${green}${check}${endColor}\n"
+  fi
+
+  echo -en "\t${yellow}Compiling Python$PYTHON_VER:${endColor}\r"
+  OUT=$(cd $PYTHON_SRC 2>&1 > /dev/null && \
+    ./configure --enable-optimizations 2>&1 > /dev/null && \
+    sudo make install 2>&1 > /dev/null && \
+    cd $ROOT_DIR 2>&1 > /dev/null)
+  if [ $? -gt 0 ]; then
+    echo -en "\r\t${yellow}Compiling Python$PYTHON_VER:\t${red}${cross}${endColor}\n"
+    echo -e "${red}$OUT${endColor}"
+    exit 1
+  else
+    echo -en "\r\t${yellow}Compiling Python$PYTHON_VER:\t${green}${check}${endColor}\n"
+  fi
+else
+  echo -e "\t${yellow}Skipping Python Install${endColor}"
+fi
+
+# Check for Python path
+echo -en "\t${yellow}Looking for Python $PYTHON_VER: ${endColor}"
+PYTHON=$(which $PYTHON)
+if [ -f $PYTHON ]; then
+  echo -en "\r\t${yellow}Looking for Python $PYTHON_VER:\t${green}${check} ($PYTHON)${endColor}\n"
+else
+  echo -en "\r\t${yellow}Looking for Python $PYTHON_VER:\t${red}${cross}{endColor}\n"
+  exit 1
+fi
+
+
+echo -en "\t${yellow}Creating Virtualenv: ${endColor}\r"
+OUT=$(virtualenv --no-site-packages -p $PYTHON venv/ 2>&1 > /dev/null && \
+  venv/bin/pip install --upgrade pip 2>&1 > /dev/null && \
+  venv/bin/pip install -r requirements.txt 2>&1 > /dev/null)
+if [ $? -gt 0 ]; then
+  echo -en "\r\t${yellow}Creating Virtualenv:\t${red}${cross}${endColor}\n"
+  echo -e "${red}$OUT${endColor}"
+  exit 1
+else
+  echo -en "\r\t${yellow}Creating Virtualenv:\t${green}${check}${endColor}\n"
+fi
+
+
+# Cleanup
+echo -en "\t${yellow}Cleaning up: ${endColor}"
+if [ -f "$PYTHON_ZIP" ]; then
+  rm "$PYTHON_ZIP"
+fi
+echo -en "\r\t${yellow}Cleaning up:\t${green}${check}${endColor}\n"
+
+if [ $? -gt 0 ]; then
+  echo -e "${red}\t---------------${endColor}"
+  echo -e "${red}\tSetup Failed D:${endColor}"
+  echo -e "${red}\t---------------${endColor}"
+  exit 1
+else
+  echo -e "${green}\t-------------------${endColor}"
+  echo -e "${green}\tSetup Successful :D${endColor}"
+  echo -e "${green}\t-------------------${endColor}"
+  echo -e "${yellow}Use ${green}\`source venv/bin/activate\`${yellow} to initialize your virtual environment${endColor}"
+  exit 0
+fi

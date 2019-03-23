@@ -1,0 +1,3 @@
+#!/bin/bash
+
+venv/bin/yapf -irp -vv lib/ beacon/ beacon_web *.py

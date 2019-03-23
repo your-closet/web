@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+export FLASK_APP=beacon_web
+
+if [ "$ENV" == "production" ];
+then
+  export FLASK_ENV=$ENV
+  venv/bin/gunicorn -c webconfig.py web:app
+else
+  export FLASK_ENV=development
+  venv/bin/flask run
+fi
