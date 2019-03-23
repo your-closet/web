@@ -8,9 +8,10 @@ from django.shortcuts import render, redirect
 @login_required
 def index(request):
     site_dict = {
-        "message":"hello world!",
+        "message": "hello world!",
     }
     return render(request, "public/index.html", site_dict)
+
 
 def signup(request):
     if request.method == 'POST':
