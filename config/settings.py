@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import os
+import os, base64, json
+from cryptography.fernet import Fernet
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,14 +24,74 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'hc-v2@p7orgf(fqlv$%fs4b^@0s4nmfi0tvxs(6fz43*2i@)*&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+WRITE_KEYS = False
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    DEBUG = True
+    try:
+        with open("keys.json") as f:
+            SECRET_KEY = json.loads(f.read()).get("SECRET_KEY")
+    except FileNotFoundError:
+        SECRET_KEY = Fernet.generate_key().decode()
+        WRITE_KEYS = True
+
+FERNET_KEY = os.environ.get("FERNET_KEY")
+if FERNET_KEY:
+    DEBUG = True
+else:
+    try:
+        with open("keys.json") as f:
+            SECRET_PASS_CRYPT = Fernet(json.loads(f.read()).get("FERNET_KEY").encode())
+    except FileNotFoundError:
+        FERNET_KEY = Fernet.generate_key().decode()
+        SECRET_PASS_CRYPT = Fernet(FERNET_KEY.encode())
+        WRITE_KEYS = True
+
+if WRITE_KEYS:
+    with open("keys.json","w") as f:
+        f.write(json.dumps({
+            "SECRET_KEY": SECRET_KEY,
+            "FERNET_KEY": FERNET_KEY,
+        }))
+
 
 ALLOWED_HOSTS = []
+if not DEBUG:
+    ALLOWED_HOSTS.append(os.enviorn.get("HOST"))
 
+LOG_FILE = "./debug.log"
+LOG_LEVEL = "DEBUG"
+HANDLER = "console"
+if not DEBUG:
+    HANDLER = "debug"
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'debug': {
+            'level': LOG_LEVEL,
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE,
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': [HANDLER],
+            'level': LOG_LEVEL,
+            'propagate': True,
+        },
+    },
+}
 # Application definition
 
 INSTALLED_APPS = [
+    'public.apps.PublicConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -118,3 +179,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staic/")
