@@ -59,7 +59,7 @@ if WRITE_KEYS:
 
 ALLOWED_HOSTS = []
 if not DEBUG:
-    ALLOWED_HOSTS.append(os.enviorn.get("HOST"))
+    ALLOWED_HOSTS.append(os.environ.get("HOST"))
 
 LOG_FILE = "./debug.log"
 LOG_LEVEL = "DEBUG"
