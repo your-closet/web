@@ -13,6 +13,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='clothingitem',
             name='clothing_type',
-            field=models.CharField(blank=True, choices=[('top', 'top'), ('bottom', 'bottom'), ('shoe', 'shoe')], default='', max_length=255),
+            field=models.CharField(
+                blank=True,
+                choices=[('top', 'top'), ('bottom', 'bottom'), ('shoe',
+                                                                'shoe')],
+                default='',
+                max_length=255),
         ),
     ]

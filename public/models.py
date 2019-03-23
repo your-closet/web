@@ -1,5 +1,6 @@
 import json
 import os
+import random
 from django.db import models, transaction
 from django.contrib.auth.models import User
 
@@ -20,6 +21,27 @@ def load_data():
                 p = Profile(user_id=u.id)
                 p.save()
 
+                # Clothing Items
+                brands = ['AG', 'Parker', 'Mavi', 'Karen Kane', 'Avec']
+                colors = ['red', 'green', 'purple', 'yellow', 'orange', 'n/a']
+                pattern = ['solid', 'checkered', 'print']
+                sizes = range(0, 32)
+                for clothing_type in ['top', 'bottom', 'shoe']:
+                    for idx in range(1, 10):
+                        filepath = os.path.join(
+                            os.getcwd(),
+                            f'data/images/{clothing_type}{idx}.jpg')
+                        if os.path.exists(filepath):
+                            ClothingItem(
+                                profile=p,
+                                brand=random.choice(brands),
+                                color=random.choice(colors),
+                                pattern=random.choice(pattern),
+                                price=random.randint(500, 100000),
+                                size=random.choice(sizes),
+                                is_advertisable=random.choice([True,
+                                                               False])).save()
+
 
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -29,7 +51,7 @@ class Profile(models.Model):
 
 
 class ClothingItem(models.Model):
-    user_id = models.ForeignKey(
+    profile = models.ForeignKey(
         verbose_name="Clothing Item",
         to="Profile",
         on_delete=models.CASCADE,
