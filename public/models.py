@@ -1,5 +1,46 @@
-from django.db import models
+import json
+import os
+import random
+from django.db import models, transaction
 from django.contrib.auth.models import User
+
+
+def load_data():
+    path = os.path.join(os.getcwd(), 'data/auth_user.json')
+    with open(path) as f:
+        users = json.loads(f.read())
+        with transaction.atomic():
+            # User / Profile
+            for user in users:
+                # Password: password1234!
+                u = User(
+                    password=
+                    "pbkdf2_sha256$120000$jS5MuAnyuYlz$shXFvX8alYFf+EpT+i3dg7HHRrL6rd58gnsZZswvG9U=",
+                    **user)
+                u.save()
+                p = Profile(user_id=u.id)
+                p.save()
+
+                # Clothing Items
+                brands = ['AG', 'Parker', 'Mavi', 'Karen Kane', 'Avec']
+                colors = ['red', 'green', 'purple', 'yellow', 'orange', 'n/a']
+                pattern = ['solid', 'checkered', 'print']
+                sizes = range(0, 32)
+                for clothing_type in ['top', 'bottom', 'shoe']:
+                    for idx in range(1, 10):
+                        filepath = os.path.join(
+                            os.getcwd(),
+                            f'data/images/{clothing_type}{idx}.jpg')
+                        if os.path.exists(filepath):
+                            ClothingItem(
+                                profile=p,
+                                brand=random.choice(brands),
+                                color=random.choice(colors),
+                                pattern=random.choice(pattern),
+                                price=random.randint(500, 100000),
+                                size=random.choice(sizes),
+                                is_advertisable=random.choice([True,
+                                                               False])).save()
 
 
 class Profile(models.Model):
@@ -10,7 +51,7 @@ class Profile(models.Model):
 
 
 class ClothingItem(models.Model):
-    user_id = models.ForeignKey(
+    profile = models.ForeignKey(
         verbose_name="Clothing Item",
         to="Profile",
         on_delete=models.CASCADE,
@@ -47,14 +88,14 @@ class ClothingItem(models.Model):
     )
 
     clothing_type = models.CharField(
-        max_length = 255,
-        blank = True,
-        default = "",
-        choices = (
-            ("shirt","shirt"),
-            ("pants","pants"),
-        )
-    )
+        max_length=255,
+        blank=True,
+        default="",
+        choices=(
+            ("top", "top"),
+            ("bottom", "bottom"),
+            ("shoe", "shoe"),
+        ))
 
     is_advertisable = models.BooleanField(
         default=False,
