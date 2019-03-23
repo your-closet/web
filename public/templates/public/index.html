@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'public/js/index.js'%}"></script>
+<script src="{% static 'public/js/index.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -17,12 +17,40 @@
     <div class="model-body">
         <div class="shirt">
             <div class="add rounded">
-                <h1><i class="fas fa-plus"></i></h1>
+                <form method="post" action = "{% url 'add_clothing' %}">
+                    {% csrf_token %}
+                    <input id="clothing_type" name = "clothing_type" value="shirt" hidden>
+                    <button type="submit">
+                        <h1><i class="fas fa-plus"></i></h1>
+                    </button>
+                </form>
+            </div>
+            <div class="arrow-right">
+                <h1><i class="fas fa-chevron-right"></i>
+                </h1>
+            </div>
+            <div class="arrow-left">
+                <h1><i class="fas fa-chevron-left"></i>
+                </h1>
             </div>
         </div>
         <div class="pants">
             <div class="add rounded">
-                <h1><i class="fas fa-plus"></i></h1>
+                    <form method="post" action = "{% url 'add_clothing' %}">
+                    {% csrf_token %}
+                    <input id="clothing_type" name = "clothing_type" value="pants" hidden>
+                    <button type="submit">
+                        <h1><i class="fas fa-plus"></i></h1>
+                    </button>
+                </form>
+            </div>
+            <div class="arrow-right">
+                <h1><i class="fas fa-chevron-right"></i>
+                </h1>
+            </div>
+            <div class="arrow-left">
+                <h1><i class="fas fa-chevron-left"></i>
+                </h1>
             </div>
         </div>
     </div>
