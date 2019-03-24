@@ -25,7 +25,7 @@ def load_data():
                 sizes = range(0, 32)
                 for clothing_type in ['top', 'bottom', 'shoe']:
                     for idx in range(1, 10):
-                        filepath = f'{clothing_type}{idx}.jpg'
+                        filepath = f'{clothing_type}{idx}.png'
                         c = ClothingItem(
                             clothing_type=clothing_type,
                             profile=p,
