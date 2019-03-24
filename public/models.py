@@ -13,8 +13,8 @@ def load_data():
             # User / Profile
             for user in users:
                 u = User(**user)
-                u.save()
                 u.set_password('password1234!')
+                u.save()
                 p = Profile(user_id=u.id)
                 p.save()
 
