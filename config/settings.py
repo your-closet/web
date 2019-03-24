@@ -191,5 +191,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = "/login"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/public/img')
-SITE_MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
