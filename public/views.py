@@ -42,10 +42,15 @@ def index(request):
             return render(request, "public/index.html", site_dict)
     else:
         tops = ClothingItem.objects.filter(profile = request.user.profile, clothing_type = "top")
-        top_images = [Image.objects.filter(clothing_item_id = top)[0] for top in tops]
+        try:
+            top_images = [Image.objects.filter(clothing_item = top)[0] for top in tops]
+        except IndexError:
+            top_images = []
         bottoms = ClothingItem.objects.filter(profile = request.user.profile, clothing_type = "bottom")
-        bottom_images = [Image.objects.filter(clothing_item_id = bottom)[0] for bottom in bottoms]
-
+        try:
+            bottom_images = [Image.objects.filter(clothing_item = bottom)[0] for bottom in bottoms]
+        except IndexError:
+            bottom_images = []
         site_dict = {
             "tops": tops,
             "bottoms": bottoms,
@@ -108,6 +113,10 @@ def add_clothing(request):
             "image_form": ImageForm()
         }
         return render(request, "public/add_clothing.html", site_dict)
+
+
+def test(request):
+    return render(request, "public/test.html")
 
 
 @login_required
