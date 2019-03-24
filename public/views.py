@@ -74,8 +74,7 @@ def add_clothing(request):
                 pattern=clothing_form.cleaned_data.get("pattern"),
                 size=clothing_form.cleaned_data.get("size"),
                 clothing_type=clothing_form.cleaned_data.get("clothing_type"),
-                is_advertisable=clothing_form.cleaned_data.get(
-                    "is_advertisable"),
+                is_advertisable=clothing_form.cleaned_data.get("is_advertisable"),
                 price=0,
             )
             c.save()

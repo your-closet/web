@@ -16,6 +16,7 @@
     </div>
     <div class="model-body">
         <div class="shirt">
+            <img src = "media/{{top_images.0.image }}">
             <div class="add rounded">
                 <form method="post" action = "{% url 'add_clothing' %}">
                     {% csrf_token %}

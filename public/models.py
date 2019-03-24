@@ -95,7 +95,8 @@ class ClothingItem(models.Model):
             ("top", "top"),
             ("bottom", "bottom"),
             ("shoe", "shoe"),
-        ))
+        )
+    )
 
     is_advertisable = models.BooleanField(
         default=False,
