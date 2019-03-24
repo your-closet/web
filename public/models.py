@@ -27,10 +27,10 @@ def load_data():
                     for idx in range(1, 10):
                         filepath = os.path.join(
                             os.getcwd(),
-                            f'data/images/{clothing_type}{idx}.jpg')
+                            f'media/{clothing_type}{idx}.jpg')
                         if os.path.exists(filepath):
-                            with open(filepath, 'rb') as f:
                                 c = ClothingItem(
+                                    clothing_type=clothing_type,
                                     profile=p,
                                     brand=random.choice(brands),
                                     color=random.choice(colors),
@@ -39,7 +39,7 @@ def load_data():
                                     size=random.choice(sizes),
                                     is_advertisable=random.choice([True, False]))
                                 c.save()
-                                Image(clothing_item=c, image_data=f.read()).save()
+                                Image(clothing_item=c, image=filepath).save()
 
 
 class Profile(models.Model):
