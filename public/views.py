@@ -163,5 +163,4 @@ def get_clothing(request):
         "tops": tops,
         "bottoms": bottoms,
         "shoes": shoes
-    },
-                        status=200)
+    }, status=200)
