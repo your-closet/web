@@ -1,5 +1,5 @@
 [{"first_name":"Lionel","last_name":"Purcell","email":"lpurcell0@theatlantic.com","is_staff":true,"is_superuser":false,"is_active":false,"date_joined":"2018-06-16T07:02:19Z","username":"lpurcell0"},
-  {"first_name":"Ximenez","last_name":"Whittier","email":"xwhittier1@1688.com","is_staff":false,"is_superuser":true,"is_active":true,"date_joined":"2019-02-17T11:37:33Z","username":"xwhittier1"},
+  {"first_name":"Ximenez","last_name":"Whittier","email":"xwhittier1@1688.com","is_staff":true,"is_superuser":true,"is_active":true,"date_joined":"2019-02-17T11:37:33Z","username":"xwhittier1"},
   {"first_name":"Justina","last_name":"Joslin","email":"jjoslin2@flavors.me","is_staff":false,"is_superuser":false,"is_active":false,"date_joined":"2019-03-06T06:46:22Z","username":"jjoslin2"},
   {"first_name":"Dorry","last_name":"Astin","email":"dastin3@webnode.com","is_staff":false,"is_superuser":true,"is_active":false,"date_joined":"2018-03-31T14:42:33Z","username":"dastin3"},
   {"first_name":"Townie","last_name":"Holton","email":"tholton4@webmd.com","is_staff":true,"is_superuser":false,"is_active":true,"date_joined":"2019-03-17T20:19:34Z","username":"tholton4"},
