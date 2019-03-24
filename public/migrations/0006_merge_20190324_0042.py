@@ -9,5 +9,4 @@ class Migration(migrations.Migration):
         ('public', '0005_auto_20190324_0005'),
     ]
 
-    operations = [
-    ]
+    operations = []
