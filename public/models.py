@@ -91,8 +91,7 @@ class ClothingItem(models.Model):
             ("top", "top"),
             ("bottom", "bottom"),
             ("shoe", "shoe"),
-        )
-    )
+        ))
 
     is_advertisable = models.BooleanField(
         default=False,
@@ -116,10 +115,7 @@ class Image(models.Model):
         null=False,
     )
 
-    image = models.FileField(
-        null = True,
-        blank = True
-    )
+    image = models.FileField(null=True, blank=True)
 
 
 class Offer(models.Model):
