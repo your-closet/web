@@ -12,11 +12,8 @@ def load_data():
         with transaction.atomic():
             # User / Profile
             for user in users:
-                # Password: password1234!
-                u = User(
-                    password=
-                    "pbkdf2_sha256$120000$jS5MuAnyuYlz$shXFvX8alYFf+EpT+i3dg7HHRrL6rd58gnsZZswvG9U=",
-                    **user)
+                u = User(**user)
+                u.set_password('password1234!')
                 u.save()
                 p = Profile(user_id=u.id)
                 p.save()
@@ -30,17 +27,19 @@ def load_data():
                     for idx in range(1, 10):
                         filepath = os.path.join(
                             os.getcwd(),
-                            f'data/images/{clothing_type}{idx}.jpg')
+                            f'media/{clothing_type}{idx}.jpg')
                         if os.path.exists(filepath):
-                            ClothingItem(
-                                profile=p,
-                                brand=random.choice(brands),
-                                color=random.choice(colors),
-                                pattern=random.choice(pattern),
-                                price=random.randint(500, 100000),
-                                size=random.choice(sizes),
-                                is_advertisable=random.choice([True,
-                                                               False])).save()
+                                c = ClothingItem(
+                                    clothing_type=clothing_type,
+                                    profile=p,
+                                    brand=random.choice(brands),
+                                    color=random.choice(colors),
+                                    pattern=random.choice(pattern),
+                                    price=random.randint(500, 100000),
+                                    size=random.choice(sizes),
+                                    is_advertisable=random.choice([True, False]))
+                                c.save()
+                                Image(clothing_item=c, image=filepath).save()
 
 
 class Profile(models.Model):
@@ -113,7 +112,7 @@ class ClothingItemEvent(models.Model):
 
 
 class Image(models.Model):
-    clothing_item_id = models.ForeignKey(
+    clothing_item = models.ForeignKey(
         verbose_name="Clothing Item",
         to="ClothingItem",
         on_delete=models.CASCADE,
