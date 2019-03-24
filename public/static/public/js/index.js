@@ -36,3 +36,15 @@ document.querySelectorAll(".swipeable").forEach(function (element) {
         }
     })
 });
+
+document.querySelectorAll(".swipeable").forEach(function (element) {
+    console.log(element);
+    element.style.height = document.querySelector(".shirt").getBoundingClientRect().height + "px";
+    console.log(element.style.height);
+});
+
+document.querySelectorAll(".swipeable img").forEach(function (element) {
+    console.log(element);
+    element.style.height = document.querySelector(".shirt").getBoundingClientRect().height + "px";
+    console.log(element.style.height);
+});

@@ -1,3 +1,8 @@
+body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
 button {
     background-color: transparent;
     background: none;
@@ -19,6 +24,26 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+.model-footer {
+    width: 100%;
+    height: 50px;
+    max-height: 50px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #33647E;
+    color: white;
+}
+
+
+.model-footer:hover {
+    cursor: pointer;
+    background-color: #24485b;
 }
 
 .model-body {
@@ -91,17 +116,12 @@ label {
     z-index: -1;
 }
 
-.select-outfit-btn {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    background-color: #33647E;
-    color: white;
+.carousel {
+    display: flex;
+    align-items: flex-end;
 }
 
-.select-outfit-btn:hover {
-    cursor: pointer;
-    background-color: #24485b;
+.carousel-inner {
+    display: flex;
+    align-items: center;
 }

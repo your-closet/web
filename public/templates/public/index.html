@@ -5,10 +5,6 @@
 <link rel="stylesheet" href="{% static 'public/css/index.css' %}">
 {% endblock %}
 
-{% block js %}
-<script src="{% static 'public/js/index.js' %}"></script>
-{% endblock %}
-
 {% block body %}
 <div class="model-container">
     <div class="model-header text-center">
@@ -16,25 +12,19 @@
     </div>
     <div class="model-body">
         <div class="shirt swipeable">
-            <!--<img src = "media/{{top_images.0.image }}">-->
-            <div class="container d-flex justify-content-center align-items-center text-center">
-                <div id="shirtCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <form method="post" action="{% url 'add_clothing' %}">
-                                {% csrf_token %}
-                                <input id="clothing_type" name="clothing_type" value="top" hidden>
-                                <button type="submit">
-                                    <h1><i class="fas fa-plus"></i></h1>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="..." alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="..." alt="Third slide">
-                        </div>
+            <div id="shirtCarousel" class="carousel slide w-100 h-100" data-ride="carousel">
+                <div class="carousel-inner h-100">
+                    <div class="carousel-item active ">
+                        <form method="post" class = "text-center" action="{% url 'add_clothing' %}">
+                            {% csrf_token %}
+                            <input id="clothing_type" name="clothing_type" value="top" hidden>
+                            <button type="submit">
+                                <h1><i class="fas fa-plus"></i></h1>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="carousel-item ">
+                        <img class="" src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pets4homes.co.uk%2Fimages%2Farticles%2F1200%2Flarge%2Funderstanding-epilepsy-in-dogs-527b4f2fee8cd.jpg&f=1" alt="Second slide">
                     </div>
                 </div>
             </div>
@@ -48,28 +38,22 @@
             </div>
         </div>
         <div class="pants swipeable">
-            <div class="container d-flex justify-content-center align-items-center text-center">
-                <div id="pantsCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <form method="post" action="{% url 'add_clothing' %}">
-                                {% csrf_token %}
-                                <input id="clothing_type" name="clothing_type" value="bottom" hidden>
-                                <button type="submit">
-                                    <h1><i class="fas fa-plus"></i></h1>
-                                </button>
-                            </form>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="..." alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="..." alt="Third slide">
-                        </div>
+            <div id="pantsCarousel" class="carousel slide w-100 h-100" data-ride="carousel">
+                <div class="carousel-inner h-100">
+                    <div class="carousel-item active">
+                        <form method="post" action="{% url 'add_clothing' %}">
+                            {% csrf_token %}
+                            <input id="clothing_type" name="clothing_type" value="bottom" hidden>
+                            <button type="submit">
+                                <h1><i class="fas fa-plus"></i></h1>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="carousel-item ">
+                        <img class="carousel-image" src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.wikihow.com%2Fimages%2F6%2F64%2FStop-a-Dog-from-Jumping-Step-6-Version-2.jpg&f=1" alt="Second slide">
                     </div>
                 </div>
             </div>
-
             <div class="arrow-right" data-target="pantsCarousel">
                 <h1><i class="fas fa-chevron-right"></i>
                 </h1>
@@ -80,6 +64,12 @@
             </div>
         </div>
     </div>
+    <div class="model-footer">
+        <h1><i class="fas fa-check"></i></h1>
+    </div>
 </div>
-<div class="select-outfit-btn"></div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'public/js/index.js' %}"></script>
 {% endblock %}
