@@ -12,7 +12,7 @@ $.ajax({
     const pantsDiv = document.querySelector("#pantsCarousel .carousel-inner")
     window.ClothingItems.tops.forEach(function (clothing) {
         var cImg = document.createElement("img");
-        cImg.src = "/static/public/img/" + clothing.image;
+        cImg.src = "/media/" + clothing.image;
         cImg.style.margin = "auto";
         var cImgHolder = document.createElement("div")
         cImgHolder.appendChild(cImg);
@@ -21,7 +21,7 @@ $.ajax({
     });
     window.ClothingItems.bottoms.forEach(function (clothing) {
         var cImg = document.createElement("img");
-        cImg.src = "/static/public/img/" + clothing.image;
+        cImg.src = "/media/" + clothing.image;
         cImg.style.margin = "auto";
         var cImgHolder = document.createElement("div")
         cImgHolder.appendChild(cImg);
