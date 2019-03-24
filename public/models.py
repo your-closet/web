@@ -12,12 +12,9 @@ def load_data():
         with transaction.atomic():
             # User / Profile
             for user in users:
-                # Password: password1234!
-                u = User(
-                    password=
-                    "pbkdf2_sha256$120000$jS5MuAnyuYlz$shXFvX8alYFf+EpT+i3dg7HHRrL6rd58gnsZZswvG9U=",
-                    **user)
+                u = User(**user)
                 u.save()
+                u.set_password('password1234!')
                 p = Profile(user_id=u.id)
                 p.save()
 
