@@ -25,21 +25,18 @@ def load_data():
                 sizes = range(0, 32)
                 for clothing_type in ['top', 'bottom', 'shoe']:
                     for idx in range(1, 10):
-                        filepath = os.path.join(
-                            os.getcwd(),
-                            f'media/{clothing_type}{idx}.jpg')
-                        if os.path.exists(filepath):
-                                c = ClothingItem(
-                                    clothing_type=clothing_type,
-                                    profile=p,
-                                    brand=random.choice(brands),
-                                    color=random.choice(colors),
-                                    pattern=random.choice(pattern),
-                                    price=random.randint(500, 100000),
-                                    size=random.choice(sizes),
-                                    is_advertisable=random.choice([True, False]))
-                                c.save()
-                                Image(clothing_item=c, image=filepath).save()
+                        filepath = f'{clothing_type}{idx}.jpg'
+                        c = ClothingItem(
+                            clothing_type=clothing_type,
+                            profile=p,
+                            brand=random.choice(brands),
+                            color=random.choice(colors),
+                            pattern=random.choice(pattern),
+                            price=random.randint(500, 100000),
+                            size=random.choice(sizes),
+                            is_advertisable=random.choice([True, False]))
+                        c.save()
+                        Image(clothing_item=c, image=filepath).save()
 
 
 class Profile(models.Model):
