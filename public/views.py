@@ -41,14 +41,21 @@ def index(request):
             site_dict = {"message": "Form is invalid"}
             return render(request, "public/index.html", site_dict)
     else:
-        tops = ClothingItem.objects.filter(profile = request.user.profile, clothing_type = "top")
+        tops = ClothingItem.objects.filter(
+            profile=request.user.profile, clothing_type="top")
         try:
-            top_images = [Image.objects.filter(clothing_item = top)[0] for top in tops]
+            top_images = [
+                Image.objects.filter(clothing_item=top)[0] for top in tops
+            ]
         except IndexError:
             top_images = []
-        bottoms = ClothingItem.objects.filter(profile = request.user.profile, clothing_type = "bottom")
+        bottoms = ClothingItem.objects.filter(
+            profile=request.user.profile, clothing_type="bottom")
         try:
-            bottom_images = [Image.objects.filter(clothing_item = bottom)[0] for bottom in bottoms]
+            bottom_images = [
+                Image.objects.filter(clothing_item=bottom)[0]
+                for bottom in bottoms
+            ]
         except IndexError:
             bottom_images = []
         site_dict = {
@@ -78,20 +85,19 @@ def add_clothing(request):
                 pattern=clothing_form.cleaned_data.get("pattern"),
                 size=clothing_form.cleaned_data.get("size"),
                 clothing_type=clothing_form.cleaned_data.get("clothing_type"),
-                is_advertisable=clothing_form.cleaned_data.get("is_advertisable"),
+                is_advertisable=clothing_form.cleaned_data.get(
+                    "is_advertisable"),
                 price=0,
             )
             c.save()
             if image_form.is_valid():
                 image_file = request.FILES['image']
-                i = Image(
-                    clothing_item=c,
-                    image=image_file
-                )
+                i = Image(clothing_item=c, image=image_file)
                 i.save()
                 return redirect("/")
             else:
-                return JsonResponse({"message": "Image Not Valid."}, status=400)
+                return JsonResponse({"message": "Image Not Valid."},
+                                    status=400)
 
         # if we're loading from index
         elif clothing_type_form.is_valid():
@@ -106,7 +112,8 @@ def add_clothing(request):
 
         # if the forms are invalid
         else:
-            return JsonResponse({"message": "Something went wrong."}, status=400)
+            return JsonResponse({"message": "Something went wrong."},
+                                status=400)
     else:
         site_dict = {
             "clothing_form": ClothingForm(),
@@ -119,13 +126,43 @@ def test(request):
     return render(request, "public/test.html")
 
 
+def get_image(clothing_item):
+    try:
+        image = Image.objects.filter(clothing_item=clothing_item).first()
+        return str(image.image)
+    except:
+        return None
+
+
+def get_clothing_item_and_images(profile, clothing_type):
+    q = ClothingItem.objects.filter(
+        profile=profile, clothing_type=clothing_type)
+
+    return [
+        dict(
+            brand=item.brand,
+            color=item.color,
+            pattern=item.pattern,
+            price=item.price,
+            size=item.size,
+            clothing_type=item.clothing_type,
+            is_advertisable=item.is_advertisable,
+            image=get_image(item)) for item in q
+    ]
+
+
 @login_required
 def get_clothing(request):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """
-            SELECT * FROM public_clothingitem ci
-            JOIN public_image pi ON pi.clothing_item_id = ci.id
-            WHERE profile_id = %s
-            """, [request.user.profile.id])
-        return JsonResponse({"clothing_items": cursor.fetchall()}, status=200)
+    tops, bottoms, shoes = [
+        get_clothing_item_and_images(request.user.profile, "top"),
+        get_clothing_item_and_images(request.user.profile, "bottom"),
+        get_clothing_item_and_images(request.user.profile, "shoe"),
+    ]
+
+    print(tops)
+    return JsonResponse({
+        "tops": tops,
+        "bottoms": bottoms,
+        "shoes": shoes
+    },
+                        status=200)

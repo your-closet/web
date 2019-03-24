@@ -1,3 +1,17 @@
+window.ClothingItems = window.ClothingItems || {};
+
+$.ajax({
+  url: "/get_clothing/"
+}).done(function(data) {
+  window.ClothingItems = {
+    tops: data.tops,
+    bottoms: data.bottoms,
+    shoes: data.shoes
+  }
+}).fail(function() {
+  console.error("Error getting ClothingItems")
+});
+
 $('.carousel').carousel({
     interval: false
 });
