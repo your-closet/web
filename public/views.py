@@ -85,7 +85,7 @@ def add_clothing(request):
             if image_form.is_valid():
                 image_file = request.FILES['image']
                 i = Image(
-                    clothing_item_id=c,
+                    clothing_item=c,
                     image=image_file
                 )
                 i.save()
