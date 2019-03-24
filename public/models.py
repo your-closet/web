@@ -119,7 +119,10 @@ class Image(models.Model):
         null=False,
     )
 
-    image_data = models.ImageField(verbose_name="Image", upload_to="images/")
+    image = models.FileField(
+        null = True,
+        blank = True
+    )
 
 
 class Offer(models.Model):

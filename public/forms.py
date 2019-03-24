@@ -15,4 +15,4 @@ class ClothingForm(forms.ModelForm):
 class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['image_data']
+        fields = ['image']
