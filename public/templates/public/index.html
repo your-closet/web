@@ -15,45 +15,71 @@
         <h1>Select an Outfit</h1>
     </div>
     <div class="model-body">
-        <div class="shirt">
-            <img src = "media/{{top_images.0.image }}">
-            <div class="add rounded">
-                <form method="post" action = "{% url 'add_clothing' %}">
-                    {% csrf_token %}
-                    <input id="clothing_type" name = "clothing_type" value="top" hidden>
-                    <button type="submit">
-                        <h1><i class="fas fa-plus"></i></h1>
-                    </button>
-                </form>
+        <div class="shirt swipeable">
+            <!--<img src = "media/{{top_images.0.image }}">-->
+            <div class="container d-flex justify-content-center align-items-center text-center">
+                <div id="shirtCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <form method="post" action="{% url 'add_clothing' %}">
+                                {% csrf_token %}
+                                <input id="clothing_type" name="clothing_type" value="top" hidden>
+                                <button type="submit">
+                                    <h1><i class="fas fa-plus"></i></h1>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="..." alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="..." alt="Third slide">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="arrow-right">
+            <div class="arrow-right" data-target="shirtCarousel">
                 <h1><i class="fas fa-chevron-right"></i>
                 </h1>
             </div>
-            <div class="arrow-left">
+            <div class="arrow-left" data-target="shirtCarousel">
                 <h1><i class="fas fa-chevron-left"></i>
                 </h1>
             </div>
         </div>
-        <div class="pants">
-            <div class="add rounded">
-                    <form method="post" action = "{% url 'add_clothing' %}">
-                    {% csrf_token %}
-                    <input id="clothing_type" name = "clothing_type" value="bottom" hidden>
-                    <button type="submit">
-                        <h1><i class="fas fa-plus"></i></h1>
-                    </button>
-                </form>
+        <div class="pants swipeable">
+            <div class="container d-flex justify-content-center align-items-center text-center">
+                <div id="pantsCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <form method="post" action="{% url 'add_clothing' %}">
+                                {% csrf_token %}
+                                <input id="clothing_type" name="clothing_type" value="bottom" hidden>
+                                <button type="submit">
+                                    <h1><i class="fas fa-plus"></i></h1>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="..." alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="..." alt="Third slide">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="arrow-right">
+
+            <div class="arrow-right" data-target="pantsCarousel">
                 <h1><i class="fas fa-chevron-right"></i>
                 </h1>
             </div>
-            <div class="arrow-left">
+            <div class="arrow-left" data-target="pantsCarousel">
                 <h1><i class="fas fa-chevron-left"></i>
                 </h1>
             </div>
         </div>
     </div>
 </div>
+<div class="select-outfit-btn"></div>
 {% endblock %}
