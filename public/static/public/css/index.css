@@ -26,7 +26,6 @@ button {
     justify-content: center;
 }
 
-
 .model-footer {
     width: 100%;
     height: 50px;
@@ -39,7 +38,6 @@ button {
     background-color: #33647E;
     color: white;
 }
-
 
 .model-footer:hover {
     cursor: pointer;
@@ -57,9 +55,6 @@ button {
 }
 
 .shirt {
-    background-image: url("/static/public/img/iPhone-Mockup-07.svg");
-    background-repeat: no-repeat;
-    background-position: center;
     flex-grow: 1;
     width: 100%;
     position: relative;
@@ -67,10 +62,13 @@ button {
     color: rgba(0, 0, 0, 0.5);
 }
 
-.pants {
-    background-image: url("/static/public/img/iPhone-Mockup-08.svg");
+#shirtimg {
+    background-image: url("/static/public/img/iPhone-Mockup-07.svg");
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.pants {
     flex-grow: 1;
     width: 100%;
     position: relative;
@@ -79,6 +77,12 @@ button {
     justify-content: center;
     color: rgba(0, 0, 0, 0.5);
     text-align: center;
+}
+
+#pantimg {
+    background-image: url("/static/public/img/iPhone-Mockup-08.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .add {

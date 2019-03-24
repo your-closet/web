@@ -1,15 +1,36 @@
 window.ClothingItems = window.ClothingItems || {};
 
 $.ajax({
-  url: "/get_clothing/"
-}).done(function(data) {
-  window.ClothingItems = {
-    tops: data.tops,
-    bottoms: data.bottoms,
-    shoes: data.shoes
-  }
-}).fail(function() {
-  console.error("Error getting ClothingItems")
+    url: "/get_clothing/"
+}).done(function (data) {
+    window.ClothingItems = {
+        tops: data.tops,
+        bottoms: data.bottoms,
+        shoes: data.shoes
+    }
+    const shirtDiv = document.querySelector("#shirtCarousel .carousel-inner");
+    const pantsDiv = document.querySelector("#pantsCarousel .carousel-inner")
+    window.ClothingItems.tops.forEach(function (clothing) {
+        var cImg = document.createElement("img");
+        cImg.src = "/media/" + clothing.image;
+        cImg.style.margin = "auto";
+        var cImgHolder = document.createElement("div")
+        cImgHolder.appendChild(cImg);
+        cImgHolder.classList.add("carousel-item","text-center");
+        shirtDiv.appendChild(cImgHolder);
+    });
+    window.ClothingItems.bottoms.forEach(function (clothing) {
+        var cImg = document.createElement("img");
+        cImg.src = "/media/" + clothing.image;
+        cImg.style.margin = "auto";
+        var cImgHolder = document.createElement("div")
+        cImgHolder.appendChild(cImg);
+        cImgHolder.classList.add("carousel-item","text-center");
+        pantsDiv.appendChild(cImgHolder);
+    });
+    resizeImg();
+}).fail(function () {
+    console.error("Error getting ClothingItems")
 });
 
 $('.carousel').carousel({
@@ -57,8 +78,10 @@ document.querySelectorAll(".swipeable").forEach(function (element) {
     console.log(element.style.height);
 });
 
-document.querySelectorAll(".swipeable img").forEach(function (element) {
-    console.log(element);
-    element.style.height = document.querySelector(".shirt").getBoundingClientRect().height + "px";
-    console.log(element.style.height);
-});
+function resizeImg() {
+    document.querySelectorAll(".swipeable img").forEach(function (element) {
+        console.log(element);
+        element.style.height = document.querySelector(".shirt").getBoundingClientRect().height + "px";
+        console.log(element.style.height);
+    });
+}
