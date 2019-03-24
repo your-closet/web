@@ -159,7 +159,6 @@ def get_clothing(request):
         get_clothing_item_and_images(request.user.profile, "shoe"),
     ]
 
-    print(tops)
     return JsonResponse({
         "tops": tops,
         "bottoms": bottoms,
