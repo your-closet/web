@@ -21,6 +21,10 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            p = Profile(
+                user = user
+            )
+            p.save()
             login(request, user)
             return redirect('/')
     else:
@@ -163,5 +167,4 @@ def get_clothing(request):
         "tops": tops,
         "bottoms": bottoms,
         "shoes": shoes
-    },
-                        status=200)
+    }, status=200)
