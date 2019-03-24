@@ -29,15 +29,17 @@ def load_data():
                             os.getcwd(),
                             f'data/images/{clothing_type}{idx}.jpg')
                         if os.path.exists(filepath):
-                            ClothingItem(
-                                profile=p,
-                                brand=random.choice(brands),
-                                color=random.choice(colors),
-                                pattern=random.choice(pattern),
-                                price=random.randint(500, 100000),
-                                size=random.choice(sizes),
-                                is_advertisable=random.choice([True,
-                                                               False])).save()
+                            with open(filepath, 'rb') as f:
+                                c = ClothingItem(
+                                    profile=p,
+                                    brand=random.choice(brands),
+                                    color=random.choice(colors),
+                                    pattern=random.choice(pattern),
+                                    price=random.randint(500, 100000),
+                                    size=random.choice(sizes),
+                                    is_advertisable=random.choice([True, False]))
+                                c.save()
+                                Image(clothing_item=c, image_data=f.read()).save()
 
 
 class Profile(models.Model):
@@ -109,7 +111,7 @@ class ClothingItemEvent(models.Model):
 
 
 class Image(models.Model):
-    clothing_item_id = models.ForeignKey(
+    clothing_item = models.ForeignKey(
         verbose_name="Clothing Item",
         to="ClothingItem",
         on_delete=models.CASCADE,

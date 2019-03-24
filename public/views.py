@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -36,9 +37,7 @@ def index(request):
             }
             return redirect('add_clothing')
         else:
-            site_dict = {
-                "message": "Form is invalid"
-            }
+            site_dict = {"message": "Form is invalid"}
             return render(request, "public/index.html", site_dict)
     else:
         site_dict = {
@@ -69,14 +68,15 @@ def add_clothing(request):
             if image_form.is_valid():
                 i = Image(
                     clothing_item_id=c,
-                    image_data=image_form.cleaned_data.get("image_data")
-                )
+                    image_data=image_form.cleaned_data.get("image_data"))
                 i.save()
                 return JsonResponse({"redirect": "/"}, status=200)
             else:
-                return JsonResponse({"message": "Image Not Valid."}, status=400)
+                return JsonResponse({"message": "Image Not Valid."},
+                                    status=400)
         elif clothing_type_form.is_valid():
-            clothing_type = clothing_type_form.cleaned_data.get("clothing_type")
+            clothing_type = clothing_type_form.cleaned_data.get(
+                "clothing_type")
             site_dict = {
                 "clothing_type": clothing_type,
                 "clothing_form": ClothingForm(),
@@ -84,10 +84,23 @@ def add_clothing(request):
             }
             return render(request, "public/add_clothing.html", site_dict)
         else:
-            return JsonResponse({"message": "Clothing Form Not Valid"}, status=400)
+            return JsonResponse({"message": "Clothing Form Not Valid"},
+                                status=400)
     else:
         site_dict = {
             "clothing_form": ClothingForm(),
             "image_form": ImageForm()
         }
         return render(request, "public/add_clothing.html", site_dict)
+
+
+@login_required
+def get_clothing(request):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT * FROM public_clothingitem ci
+            JOIN public_image pi ON pi.clothing_item_id = ci.id
+            WHERE profile_id = %s
+            """, [request.user.profile.id])
+        return JsonResponse({"clothing_items": cursor.fetchall()}, status=200)

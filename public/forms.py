@@ -7,10 +7,15 @@ class ClothingTypeForm(forms.ModelForm):
         model = ClothingItem
         fields = ['clothing_type']
 
+
 class ClothingForm(forms.ModelForm):
     class Meta:
         model = ClothingItem
-        fields = ['brand','color','pattern','size', 'is_advertisable', 'clothing_type']
+        fields = [
+            'brand', 'color', 'pattern', 'size', 'is_advertisable',
+            'clothing_type'
+        ]
+
 
 class ImageForm(forms.ModelForm):
     class Meta:
