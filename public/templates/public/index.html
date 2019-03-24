@@ -19,7 +19,7 @@
             <div class="add rounded">
                 <form method="post" action = "{% url 'add_clothing' %}">
                     {% csrf_token %}
-                    <input id="clothing_type" name = "clothing_type" value="shirt" hidden>
+                    <input id="clothing_type" name = "clothing_type" value="top" hidden>
                     <button type="submit">
                         <h1><i class="fas fa-plus"></i></h1>
                     </button>
@@ -38,7 +38,7 @@
             <div class="add rounded">
                     <form method="post" action = "{% url 'add_clothing' %}">
                     {% csrf_token %}
-                    <input id="clothing_type" name = "clothing_type" value="pants" hidden>
+                    <input id="clothing_type" name = "clothing_type" value="bottom" hidden>
                     <button type="submit">
                         <h1><i class="fas fa-plus"></i></h1>
                     </button>

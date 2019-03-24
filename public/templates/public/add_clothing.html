@@ -14,36 +14,36 @@
 <div class="container h-100">
     <div class="row h-100 jusify-content-center align-items-center text-center">
         <div class="col-12">
-            <h2>Add {{ clothing_type }}</h2>
-            <p>Select an image:</p>
-            <div class="clothing-view" id="clothing-view">
-                <div class="add rounded">
-                    <label for="image">
-                        <h1><i class="fas fa-plus"></i></h1>
-                    </label>
-                    <input class="add-input" type="file" id="image" name="image" onchange="previewFile()">
-                </div>
-            </div>
-            <hr>
-            <h2>Details:</h2>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                <h2>Add {{ clothing_type }}</h2>
+                <p>Select an image:</p>
+                <div class="clothing-view" id="clothing-view">
+                    <div class="add rounded">
+                        <label for="image">
+                            <h1><i class="fas fa-plus"></i></h1>
+                        </label>
+                        <input class="add-input" type="file" id="image" name="image" onchange="previewFile()">
+                    </div>
+                </div>
+                <hr>
+                <h2>Details:</h2>
                 <div class="form-group">
                     <!-- brand -->
-                    <label class = "mt-3" for="brand" required>Brand Name:</label>
+                    <label class="mt-3" for="brand" required>Brand Name:</label>
                     <input id="brand" name="brand" class="form-control">
                     <!-- color -->
-                    <label class = "mt-3" for="color" required>Color:</label>
+                    <label class="mt-3" for="color" required>Color:</label>
                     <input type="color" id="color" name="color" class="form-control">
                     <!-- pattern -->
-                    <label class = "mt-3" for="pattern" required>Pattern:</label>
+                    <label class="mt-3" for="pattern" required>Pattern:</label>
                     <input id="pattern" name="pattern" class="form-control">
                     <!-- size -->
-                    <label class = "mt-3" for="size" required>Size:</label>
+                    <label class="mt-3" for="size" required>Size:</label>
                     <input id="size" name="size" class="form-control">
                     <!-- type -->
-                    <label class = "mt-3" for="type" required>Clothing Type:</label>
-                    <input id="type" name="type" class="form-control" value = {{clothing_type}}>
+                    <label class="mt-3" for="type" required>Clothing Type:</label>
+                    <input id="type" name="type" class="form-control" value={{clothing_type}} disabled>
                     <!-- is_advertisable -->
                     <div class="form-check form-check-inline mt-3">
                         <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
